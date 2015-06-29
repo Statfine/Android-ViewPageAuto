@@ -9,9 +9,10 @@ import java.util.concurrent.TimeUnit;
 
 
 
+
 import com.sj.widget.ChildViewPager;
 import com.sj.widget.ChildViewPager.OnSingleTouchListener;
-
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
@@ -23,8 +24,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 
@@ -32,9 +31,9 @@ import android.widget.Toast;
 public class HeadViewPage extends LinearLayout {
     
     //轮播图图片数量
-    private final static int IMAGE_COUNT = 5;
+    //private final static int IMAGE_COUNT = 5;
     //自动轮播的时间间隔
-    private final static int TIME_INTERVAL = 5;
+    //private final static int TIME_INTERVAL = 5;
     //自动轮播启用开关
     private final static boolean isAutoPlay = true; 
     
@@ -56,13 +55,11 @@ public class HeadViewPage extends LinearLayout {
     private LinearLayout m_ll_img_point;
     private static Context mContext;
     
-	private int picWidth;
-	private int picHeight;
-    
     //Handler
-    private Handler handler = new Handler(){
+    @SuppressLint("HandlerLeak")
+	private Handler handler = new Handler(){
 
-        @Override
+		@Override
         public void handleMessage(Message msg) {
             // TODO Auto-generated method stub
             super.handleMessage(msg);
@@ -100,7 +97,8 @@ public class HeadViewPage extends LinearLayout {
     /**
      * 停止轮播图切换
      */
-    private void stopPlay(){
+    @SuppressWarnings("unused")
+	private void stopPlay(){
         scheduledExecutorService.shutdown();
     }
     /**
@@ -121,7 +119,6 @@ public class HeadViewPage extends LinearLayout {
     	for (int i = 0; i < dataListResponse.size(); i++) {
     		View view =  mInflater.inflate(R.layout.view_home_head_adapter, null);
     		ImageView imageView = (ImageView) view.findViewById(R.id.view_home_head_adapter_img);
-           	RelativeLayout.LayoutParams linearParams =(RelativeLayout.LayoutParams) imageView.getLayoutParams(); 
             
         	imageView.setImageResource(dataListResponse.get(i));
             imageViewsList.add(view);
